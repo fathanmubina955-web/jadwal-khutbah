@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Trash2, Calendar, Phone, MapPin, FileText } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Trash2, Calendar, Phone, MapPin, FileText, ArrowLeft } from 'lucide-react';
 import { useKhatibSchedules } from '@/hooks/useKhatibSchedules';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,7 +27,7 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  const loadSchedules = async () => {
+  const loadSchedules = useCallback(async () => {
     try {
       setIsLoading(true);
       const data = await getAllSchedules();
@@ -41,11 +42,11 @@ const Admin = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [getAllSchedules, toast]);
 
   useEffect(() => {
     loadSchedules();
-  }, []);
+  }, [loadSchedules]);
 
   const handleDelete = async (scheduleDate: string, khatibName: string) => {
     if (!window.confirm(`Hapus jadwal khutbah ${khatibName}? Aksi ini tidak bisa dibatalkan.`)) {
@@ -87,6 +88,12 @@ const Admin = () => {
       <main className="min-h-screen bg-background p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
+            <Link to="/">
+              <Button variant="ghost" size="sm" className="mb-4 -ml-2">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Kembali ke Halaman Utama
+              </Button>
+            </Link>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
               Dashboard Admin
             </h1>

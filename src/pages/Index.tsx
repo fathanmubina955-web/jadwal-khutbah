@@ -22,21 +22,37 @@ const Index = () => {
     await registerKhatib({ schedule, data });
   };
 
+  if (isLoading) {
+    return (
+      <>
+        <Helmet>
+          <title>Jadwal Khatib Jum'at 2026 - Masjid Kampus 2 UIN SGD Bandung</title>
+        </Helmet>
+        <main className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Memuat data jadwal...</p>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
         <title>Jadwal Khatib Jum'at 2026 - Masjid Kampus 2 UIN SGD Bandung</title>
-        <meta 
-          name="description" 
-          content="Sistem penjadwalan Khatib Jum'at untuk tahun 2026 di Masjid Kampus 2 UIN Sunan Gunung Djati Bandung. Daftar sebagai Khatib sekarang." 
+        <meta
+          name="description"
+          content="Sistem penjadwalan Khatib Jum'at untuk tahun 2026 di Masjid Kampus 2 UIN Sunan Gunung Djati Bandung. Daftar sebagai Khatib sekarang."
         />
       </Helmet>
 
       <main className="min-h-screen flex flex-col">
         <HeroSection />
-        <ScheduleList 
-          schedules={schedules} 
-          onSelectSchedule={handleSelectSchedule} 
+        <ScheduleList
+          schedules={schedules}
+          onSelectSchedule={handleSelectSchedule}
         />
         <KhatibFormDialog
           schedule={selectedSchedule}
